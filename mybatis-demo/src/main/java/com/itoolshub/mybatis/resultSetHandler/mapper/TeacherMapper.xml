@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itoolshub.mybatis.resultSetHandler.mapper.TeacherMapper">
+
+
+	<resultMap id="RM-TEACHER" type="com.itoolshub.mybatis.common.domain.Teacher">
+		<id column="id" property="id" javaType="Long" jdbcType="BIGINT"/>
+		<result column="name" property="name" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+
+
+	<sql id="RM-TEACHER-ALLCOLS">
+		id,name
+	</sql>
+
+
+	<select id="findById" resultMap="RM-TEACHER">
+		SELECT
+			<include refid="RM-TEACHER-ALLCOLS"/>
+		FROM teacher WHERE id = #{id}
+	</select>
+
+
+	<insert id="create" parameterType="com.itoolshub.mybatis.common.domain.Teacher" 
+useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
+		INSERT INTO teacher
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				name,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="name != null">
+				 #{name,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<update id="update" parameterType="com.itoolshub.mybatis.common.domain.Teacher">
+		UPDATE teacher
+		<set>
+			<if test="name != null">
+				name  = #{name,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+
+
+</mapper>
