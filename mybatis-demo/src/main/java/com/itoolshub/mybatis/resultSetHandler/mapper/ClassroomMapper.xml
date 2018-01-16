@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.itoolshub.mybatis.resultSetHandler.mapper.ClassroomMapper">
+
+
+	<resultMap id="RM-CLASSROOM" type="com.itoolshub.mybatis.common.domain.Classroom">
+		<id column="id" property="id" javaType="Long" jdbcType="BIGINT"/>
+		<result column="title" property="title" javaType="String" jdbcType="VARCHAR"/>
+	</resultMap>
+
+
+	<sql id="RM-CLASSROOM-ALLCOLS">
+		id,title
+	</sql>
+
+
+	<select id="findById" resultMap="RM-CLASSROOM">
+		SELECT
+			<include refid="RM-CLASSROOM-ALLCOLS"/>
+		FROM classroom WHERE id = #{id}
+	</select>
+
+
+	<insert id="create" parameterType="com.itoolshub.mybatis.common.domain.Classroom" 
+useGeneratedKeys="true" keyColumn="id" keyProperty="id" >
+		INSERT INTO classroom
+		<trim prefix="(" suffix=")" suffixOverrides=",">
+			<if test="title != null">
+				title,
+			</if>
+		</trim>
+		<trim prefix="values (" suffix=")" suffixOverrides=",">
+			<if test="title != null">
+				 #{title,jdbcType=VARCHAR},
+			</if>
+		</trim>
+	</insert>
+
+
+	<update id="update" parameterType="com.itoolshub.mybatis.common.domain.Classroom">
+		UPDATE classroom
+		<set>
+			<if test="title != null">
+				title  = #{title,jdbcType=VARCHAR},
+			</if>
+		</set>
+		WHERE id = #{id,jdbcType=BIGINT}
+	</update>
+
+
+</mapper>

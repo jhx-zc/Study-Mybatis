@@ -1,4 +1,4 @@
-package com.itoolshub.mybatis.studymybatis;
+package com.itoolshub.mybatis.common;
 
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -7,7 +7,7 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 @RunWith(SpringRunner.class)
 @SpringBootTest
-public class StudyMybatisApplicationTests {
+public class BaseSpringMybatisApplicationTests {
 
 	@Test
 	public void contextLoads() {
