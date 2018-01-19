@@ -38,3 +38,7 @@ public class ResultSetHandlerApplication extends BaseSpringMybatisApplication {
 }
 
 ```
+
+# 备注
+
+个人阅读文章:  [http://mrdear.cn/tags/mybatis/](http://mrdear.cn/tags/mybatis/)
