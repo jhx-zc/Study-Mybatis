@@ -15,16 +15,6 @@
  */
 package org.apache.ibatis.executor.keygen;
 
-import java.sql.ResultSet;
-import java.sql.ResultSetMetaData;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.List;
-import java.util.Map;
-
 import org.apache.ibatis.binding.BindingException;
 import org.apache.ibatis.executor.Executor;
 import org.apache.ibatis.executor.ExecutorException;
@@ -34,6 +24,16 @@ import org.apache.ibatis.session.Configuration;
 import org.apache.ibatis.type.JdbcType;
 import org.apache.ibatis.type.TypeHandler;
 import org.apache.ibatis.type.TypeHandlerRegistry;
+
+import java.sql.ResultSet;
+import java.sql.ResultSetMetaData;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.Collection;
+import java.util.List;
+import java.util.Map;
 
 /**
  * @author Clinton Begin
@@ -69,6 +69,7 @@ public class Jdbc3KeyGenerator implements KeyGenerator {
       if (keyProperties != null && rsmd.getColumnCount() >= keyProperties.length) {
         for (Object parameter : parameters) {
           // there should be one row for each statement (also one for each parameter)
+          //这里依赖你的数据库,当jdbc驱动能返回多个主键时才可处理,否则仍然是不支持多个主键写回.
           if (!rs.next()) {
             break;
           }

@@ -1,6 +1,7 @@
-package com.itoolshub.mybatis.resultSetHandler.mapper;
+package com.itoolshub.mybatis.common.mapperbak;
 
 import com.itoolshub.mybatis.common.domain.Teacher;
+
 import org.apache.ibatis.annotations.Mapper;
 
 @Mapper

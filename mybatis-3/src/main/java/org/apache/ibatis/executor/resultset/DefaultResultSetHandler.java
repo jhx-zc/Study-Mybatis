@@ -186,11 +186,16 @@ public class DefaultResultSetHandler implements ResultSetHandler {
     final List<Object> multipleResults = new ArrayList<Object>();
 
     int resultSetCount = 0;
+    // 取出查询结果
     ResultSetWrapper rsw = getFirstResultSet(stmt);
-
+    //得到最初构造的ResultMap
     List<ResultMap> resultMaps = mappedStatement.getResultMaps();
+
     int resultMapCount = resultMaps.size();
+    //这个校验实际上是没有resultMap进行处理的异常
     validateResultMapsCount(rsw, resultMapCount);
+
+    //可处理情况,依次获取resultMap进行处理,这里有个问题,什么情况下resultMaps的数量大于1
     while (rsw != null && resultMapCount > resultSetCount) {
       ResultMap resultMap = resultMaps.get(resultSetCount);
       handleResultSet(rsw, resultMap, multipleResults, null);
@@ -864,11 +869,16 @@ public class DefaultResultSetHandler implements ResultSetHandler {
 
   private void handleRowValuesForNestedResultMap(ResultSetWrapper rsw, ResultMap resultMap, ResultHandler<?> resultHandler, RowBounds rowBounds, ResultMapping parentMapping) throws SQLException {
     final DefaultResultContext<Object> resultContext = new DefaultResultContext<Object>();
+    //内存分页
     skipRows(rsw.getResultSet(), rowBounds);
+
     Object rowValue = previousRowValue;
     while (shouldProcessMoreRows(resultContext, rowBounds) && rsw.getResultSet().next()) {
+      //拿到实际要转向的实体类
       final ResultMap discriminatedResultMap = resolveDiscriminatedResultMap(rsw.getResultSet(), resultMap, null);
+      // TODO 不知道用处
       final CacheKey rowKey = createRowKey(discriminatedResultMap, rsw, null);
+
       Object partialObject = nestedResultObjects.get(rowKey);
       // issue #577 && #542
       if (mappedStatement.isResultOrdered()) {
